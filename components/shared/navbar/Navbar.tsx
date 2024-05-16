@@ -1,6 +1,9 @@
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import GlobalSearch from "../search/GlobalSearch";
+import Mobilenav from "./Mobilenav";
+import Theme from "./Theme";
 
 function Navbar() {
   return (
@@ -10,21 +13,19 @@ function Navbar() {
           src="/assets/images/site-logo.svg"
           width={23}
           height={23}
-          alt="devoveflow logo"
+          alt="devoverflow logo"
         />
         <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900 max-sm:hidden">
           Dev <span className="text-primary-500">Overflow</span>
         </p>
       </Link>
-      GLOBALSEARCH
+      <GlobalSearch />
       <div className="flex-between gap-5">
-        THEME
+        <Theme />
         <SignedIn>
           <UserButton />
         </SignedIn>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
+        <Mobilenav />
       </div>
     </nav>
   );
