@@ -2,10 +2,10 @@ import Link from "next/link";
 import { Badge } from "../ui/badge";
 
 interface Props {
-  _id: number;
+  _id: string;
   name: string;
   totalQst?: number;
-  showCount: boolean;
+  showCount?: boolean;
 }
 
 export default function RenderTag({ _id, totalQst, name, showCount }: Props) {

@@ -4,13 +4,13 @@ import RenderTag from "./RenderTag";
 
 export default function RightSidebar() {
   const hotqst = [
-    { _id: 1, title: "fer" },
-    { _id: 2, title: "fer" },
+    { _id: "1", title: "fer" },
+    { _id: "2", title: "fer" },
   ];
 
   const tags = [
-    { _id: 1, name: "Javascript", totalQst: 5 },
-    { _id: 2, name: "Docker", totalQst: 6 },
+    { _id: "1", name: "Javascript", totalQst: 5 },
+    { _id: "2", name: "Docker", totalQst: 6 },
   ];
   return (
     <section className="background-light900_dark200 light-border sticky right-0 top-0 flex h-screen w-[350px] flex-col overflow-y-auto border-l p-6 pt-36 shadow-light-300 dark:shadow-none max-xl:hidden">
