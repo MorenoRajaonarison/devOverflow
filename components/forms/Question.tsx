@@ -12,11 +12,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { QuestionSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Editor } from "@tinymce/tinymce-react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 
 const Question = () => {
+  const editorRef = useRef(null);
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
@@ -33,6 +36,7 @@ const Question = () => {
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
+
   return (
     <Form {...form}>
       <form
@@ -72,7 +76,33 @@ const Question = () => {
                 Detailed explanation of your problem
                 <span className="text-primary-500">*</span>
               </FormLabel>
-              <FormControl className="mt-3.5"></FormControl>
+              <FormControl className="mt-3.5">
+                <Editor
+                  apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
+                  onInit={(_evt, editor) => {
+                    editorRef.current = editor;
+                  }}
+                  init={{
+                    height: 350,
+                    menubar: false,
+                    plugins:
+                      "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown",
+                    toolbar:
+                      "undo redo | codesample | bold italic underline strikethrough | link | align lineheight |indent outdent ",
+                    tinycomments_mode: "embedded",
+                    tinycomments_author: "Author name",
+                    mergetags_list: [
+                      { value: "First.Name", title: "First Name" },
+                      { value: "Email", title: "Email" },
+                    ],
+                    // ai_request: (request, respondWith) =>
+                    //   respondWith.string(() =>
+                    //     Promise.reject("See docs to implement AI Assistant")
+                    //   ),
+                  }}
+                  initialValue=""
+                />
+              </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Introduce the problem and expand on what you put in the title
                 minimum 20
