@@ -75,7 +75,7 @@
     @apply text-dark-400 dark:text-light-800;
   }
 
-  .text-light400_light500 {
+  .text-dark400_light500 {
     @apply text-light-400 dark:text-light-500 !important;
   }
 
