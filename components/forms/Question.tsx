@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createQuestion } from "@/lib/actions/querstion.action";
+import { createQuestion } from "@/lib/actions/question.action";
 import { QuestionSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
@@ -20,12 +20,18 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const type: any = "create";
 
-const Question = () => {
+interface Props {
+  mongoUserId: string
+}
+
+const Question = ({mongoUserId}: Props) => {
   const editorRef = useRef(null);
   const [isSubmiting, setIsSubmiting] = useState(false);
+  const router = useRouter()
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
@@ -40,7 +46,14 @@ const Question = () => {
   async function onSubmit(values: z.infer<typeof QuestionSchema>) {
     setIsSubmiting(true);
     try {
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId)
+      });
+
+      router.push('/')
     } catch (error) {
     } finally {
       setIsSubmiting(false);
