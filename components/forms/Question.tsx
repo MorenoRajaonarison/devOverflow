@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createQuestion } from "@/lib/actions/querstion.action";
 import { QuestionSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
@@ -36,9 +37,14 @@ const Question = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionSchema>) {
     setIsSubmiting(true);
-    console.log(values);
+    try {
+      await createQuestion({});
+    } catch (error) {
+    } finally {
+      setIsSubmiting(false);
+    }
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, field: any) => {
@@ -114,6 +120,8 @@ const Question = () => {
                   onInit={(_evt, editor) => {
                     editorRef.current = editor;
                   }}
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => field.onChange(content)}
                   init={{
                     height: 350,
                     menubar: false,
