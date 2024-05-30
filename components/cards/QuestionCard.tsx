@@ -24,6 +24,7 @@ const QuestionCard = ({
   upVotes,
   views,
 }: Props) => {
+  console.log(upVotes);
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11 ">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">

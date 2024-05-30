@@ -5,55 +5,57 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filter";
+import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
 
-const questions = [
-  {
-    _id: "1",
-    title: "How use express with nextJS?",
-    tags: [
-      { _id: "1", name: "Javascript" },
-      { _id: "2", name: "Typescript" },
-    ],
-    author: {
-      _id: "user1",
-      name: "Rajaonarison",
-      picture: "url_to_user_picture",
-    },
-    upVotes: 10,
-    answers: [
-      { answerId: "answer1", text: "Sample answer 1" },
-      { answerId: "answer2", text: "Sample answer 2" },
-    ],
-    createdAt: new Date("2024-01-15T12:00:00.00Z"),
-    views: 50,
-  },
-  {
-    _id: "2",
-    title: "How to center a div?",
-    tags: [
-      { _id: "3", name: "Css" },
-      { _id: "4", name: "Design" },
-    ],
-    author: {
-      _id: "user2",
-      name: "Fitia",
-      picture: "url_to_user_picture",
-    },
-    upVotes: 3,
-    answers: [
-      { answerId: "answer3", text: "Sample answer 3" },
-      { answerId: "answer4", text: "Sample answer 4" },
-      { answerId: "answer5", text: "Sample answer 5" },
-      { answerId: "answer6", text: "Sample answer 6" },
-      { answerId: "answer7", text: "Sample answer 7" },
-    ],
-    createdAt: new Date("2023-02-15T12:00:00.00Z"),
-    views: 50,
-  },
-];
+// const questions = [
+//   {
+//     _id: "1",
+//     title: "How use express with nextJS?",
+//     tags: [
+//       { _id: "1", name: "Javascript" },
+//       { _id: "2", name: "Typescript" },
+//     ],
+//     author: {
+//       _id: "user1",
+//       name: "Rajaonarison",
+//       picture: "url_to_user_picture",
+//     },
+//     upVotes: 10,
+//     answers: [
+//       { answerId: "answer1", text: "Sample answer 1" },
+//       { answerId: "answer2", text: "Sample answer 2" },
+//     ],
+//     createdAt: new Date("2024-01-15T12:00:00.00Z"),
+//     views: 50,
+//   },
+//   {
+//     _id: "2",
+//     title: "How to center a div?",
+//     tags: [
+//       { _id: "3", name: "Css" },
+//       { _id: "4", name: "Design" },
+//     ],
+//     author: {
+//       _id: "user2",
+//       name: "Fitia",
+//       picture: "url_to_user_picture",
+//     },
+//     upVotes: 3,
+//     answers: [
+//       { answerId: "answer3", text: "Sample answer 3" },
+//       { answerId: "answer4", text: "Sample answer 4" },
+//       { answerId: "answer5", text: "Sample answer 5" },
+//       { answerId: "answer6", text: "Sample answer 6" },
+//       { answerId: "answer7", text: "Sample answer 7" },
+//     ],
+//     createdAt: new Date("2023-02-15T12:00:00.00Z"),
+//     views: 50,
+//   },
+// ];
 
-function Home() {
+async function Home() {
+  const questions = await getQuestions({});
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
