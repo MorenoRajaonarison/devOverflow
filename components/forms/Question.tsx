@@ -20,18 +20,19 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const type: any = "create";
 
 interface Props {
-  mongoUserId: string
+  mongoUserId: string;
 }
 
-const Question = ({mongoUserId}: Props) => {
-  const editorRef = useRef(null);
+const Question = ({ mongoUserId }: Props) => {
+  const editorRef = useRef();
+  const pathname = usePathname();
   const [isSubmiting, setIsSubmiting] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
@@ -50,10 +51,11 @@ const Question = ({mongoUserId}: Props) => {
         title: values.title,
         content: values.explanation,
         tags: values.tags,
-        author: JSON.parse(mongoUserId)
+        author: JSON.parse(mongoUserId),
+        path: pathname,
       });
 
-      router.push('/')
+      router.push("/");
     } catch (error) {
     } finally {
       setIsSubmiting(false);
@@ -110,7 +112,7 @@ const Question = ({mongoUserId}: Props) => {
                 />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
-                Be specific and imagine you're asking a question to another
+                Be specific and imagine you re asking a question to another
                 person.
               </FormDescription>
               <FormMessage className="text-red-500" />
@@ -131,6 +133,7 @@ const Question = ({mongoUserId}: Props) => {
                 <Editor
                   apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
                   onInit={(_evt, editor) => {
+                    // @ts-ignore
                     editorRef.current = editor;
                   }}
                   onBlur={field.onBlur}

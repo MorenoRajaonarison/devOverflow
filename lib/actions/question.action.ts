@@ -22,6 +22,7 @@ export async function getQuestions(params: GetQuestionsParams) {
 export async function createQuestion(params: CreateQuestionParams) {
   try {
     connectToDb();
+    // eslint-disable-next-line no-unused-vars
     const { title, content, tags, author, path } = params;
     const question = await Question.create({ title, content, author });
     const tagsDocuments = [];
