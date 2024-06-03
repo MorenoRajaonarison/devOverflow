@@ -8,7 +8,6 @@ import {
   GetUserByIdParams,
   UpdateUserParams,
 } from "./shared.types";
-import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
 
 export async function getUserById(params: GetUserByIdParams) {
@@ -38,9 +37,10 @@ export async function createUser(userData: CreateUserParams) {
 export async function updateUser(userData: UpdateUserParams) {
   try {
     connectToDb();
+    // eslint-disable-next-line no-unused-vars
     const { clerkId, path, updateData } = userData;
     await User.findOneAndUpdate({ clerkId }, updateData, { new: true });
-    revalidatePath(path);
+    // revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;
@@ -56,6 +56,7 @@ export async function deleteUser(userData: DeleteUserParams) {
       throw new Error("User not found");
     }
 
+    // eslint-disable-next-line no-unused-vars
     const userQstId = await Question.find({ author: user._id }).distinct("_id");
     await Question.deleteMany({ author: user._id });
     const deletedUser = await User.findOneAndDelete(user._id);

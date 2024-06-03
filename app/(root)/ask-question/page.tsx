@@ -1,11 +1,13 @@
 import Question from "@/components/forms/Question";
 import { getUserById } from "@/lib/actions/user.actions";
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const Page = async () => {
   const { userId } = auth();
-  // const userId = "123456";
+  if (!userId) redirect("/sign-in");
   const mongoUser = await getUserById({ userId });
+  console.log(`=============> ${mongoUser}`);
 
   return (
     <div className="">
