@@ -3,8 +3,8 @@ import { getUserById } from "@/lib/actions/user.actions";
 import { auth } from "@clerk/nextjs/server";
 
 const Page = async () => {
-  // const { userId } = auth();
-  const userId = "123456";
+  const { userId } = auth();
+  // const userId = "123456";
   const mongoUser = await getUserById({ userId });
 
   return (
