@@ -15,7 +15,6 @@ export async function getUserById(params: GetUserByIdParams) {
     connectToDb();
     const { userId } = params;
     const user = await User.findOne({ clerkId: userId });
-
     return user;
   } catch (error) {
     console.log(error);
@@ -59,7 +58,7 @@ export async function deleteUser(userData: DeleteUserParams) {
     // eslint-disable-next-line no-unused-vars
     const userQstId = await Question.find({ author: user._id }).distinct("_id");
     await Question.deleteMany({ author: user._id });
-    const deletedUser = await User.findOneAndDelete(user._id);
+    const deletedUser = await User.findByIdAndDelete(user._id);
     return deletedUser;
   } catch (error) {
     console.log(error);
