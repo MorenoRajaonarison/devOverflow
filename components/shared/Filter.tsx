@@ -17,7 +17,7 @@ interface Props {
 
 function Filter({ filters, otherClasses, containerClasses }: Props) {
   return (
-    <div className={`relative ${containerClasses}`}>
+    <div className={`relative ${containerClasses} max-sm:w-full`}>
       <Select>
         <SelectTrigger
           className={`${otherClasses} body-regular light-border background-light800_dark300 text-dark500_light700 border px-5 py-2.5`}
@@ -29,7 +29,11 @@ function Filter({ filters, otherClasses, containerClasses }: Props) {
         <SelectContent>
           <SelectGroup>
             {filters.map((filter) => (
-              <SelectItem key={filter.name} value={filter.value}>
+              <SelectItem
+                key={filter.name}
+                value={filter.value}
+                className="cursor-pointer focus:bg-light-800 dark:focus:bg-dark-400"
+              >
                 {filter.name}
               </SelectItem>
             ))}
