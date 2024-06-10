@@ -3,7 +3,7 @@
 import Question from "@/database/question.model";
 import { connectToDb } from "../mongoose";
 import Tag from "@/database/tag.model";
-import { GetQuestionsParams, CreateQuestionParams } from "./shared.types";
+import { GetQuestionsParams, CreateQuestionParams, GetQuestionByIdParams } from "./shared.types";
 import User from "@/database/user.model";
 
 export async function getQuestions(params: GetQuestionsParams) {
@@ -42,5 +42,16 @@ export async function createQuestion(params: CreateQuestionParams) {
   } catch (error) {
     console.log(error);
     throw error;
+  }
+}
+
+export async function getQuestionById(params: GetQuestionByIdParams){
+  try{
+    connectToDb();
+      const question = await Question.findById(params.questionId).populate({path: 'tags', model: Tag, select: '_id name'}).populate({path: 'author', model: User, select: '_id clerkId name picture'})
+      return question
+  } catch (error) {
+    console.log(error)
+    throw error
   }
 }
