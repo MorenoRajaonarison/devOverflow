@@ -15,12 +15,13 @@ import { QuestionSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { KeyboardEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "@/context/ThemeContext";
 
 const type: any = "create";
 
@@ -29,6 +30,7 @@ interface Props {
 }
 
 const Question = ({ mongoUserId }: Props) => {
+  const {mode} = useTheme()
   const editorRef = useRef();
   const pathname = usePathname();
   const [isSubmiting, setIsSubmiting] = useState(false);
@@ -151,6 +153,8 @@ const Question = ({ mongoUserId }: Props) => {
                       { value: "First.Name", title: "First Name" },
                       { value: "Email", title: "Email" },
                     ],
+                    skin: mode === "dark" ? "oxide-dark" : "oxide",
+                    content_css: mode === "dark" ? "dark" : "light",
                     // ai_request: (request, respondWith) =>
                     //   respondWith.string(() =>
                     //     Promise.reject("See docs to implement AI Assistant")
