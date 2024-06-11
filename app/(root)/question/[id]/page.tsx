@@ -1,5 +1,6 @@
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
+import RenderTag from "@/components/shared/RenderTag";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getFormattedNumber, getTimestamp } from "@/lib/utils";
 import Image from "next/image";
@@ -37,7 +38,7 @@ const page = async ({ params, searchParams }) => {
           imgUrl="/assets/icons/clock.svg"
           alt="clock icon"
           value={` asked ${getTimestamp(question.createdAt)}`}
-          title=" asked"
+          title=""
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
@@ -55,7 +56,17 @@ const page = async ({ params, searchParams }) => {
           textStyles="small-medium text-dark400_light800"
         />
       </div>
-      <ParseHTML data={question.content}/>
+      <ParseHTML data={question.content} />
+      <div className="mt-8 flex flex-wrap gap-2">
+        {question.tags.map((tag) => (
+          <RenderTag
+            key={tag._id}
+            _id={tag._id}
+            name={tag.name}
+            showCount={false}
+          />
+        ))}
+      </div>
     </>
   );
 };
