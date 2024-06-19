@@ -24,7 +24,6 @@ const QuestionCard = ({
   upVotes,
   views,
 }: Props) => {
-  console.log(upVotes);
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11 ">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -55,7 +54,7 @@ const QuestionCard = ({
         <Metric
           imgUrl="/assets/icons/like.svg"
           alt="UpVotes"
-          value={getFormattedNumber(upVotes)}
+          value={getFormattedNumber(upVotes.length)}
           title=" Votes"
           textStyles="small-medium text-dark400_light800"
         />
