@@ -10,7 +10,7 @@ interface Props {
   author: { _id: string; name: string; picture: string };
   answers: Array<object>;
   views: number;
-  upVotes: number;
+  upVotes: string[];
   createdAt: Date;
 }
 
