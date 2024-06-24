@@ -1,5 +1,6 @@
 "use client";
 import { downVoteAnswer, upVoteAnswer } from "@/lib/actions/answer.action";
+import { viewQuestion } from "@/lib/actions/interaction.action";
 import {
   downVoteQuestion,
   upVoteQuestion,
@@ -8,6 +9,7 @@ import { toggleSaveQuestion } from "@/lib/actions/user.actions";
 import { getFormattedNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 interface Props {
   type: string;
@@ -31,12 +33,21 @@ function Votes({
   hasSaved,
 }: Props) {
   const path = usePathname();
-  const handelsave = async () => {
+
+  useEffect(() => {
+    viewQuestion({
+      questionId: JSON.parse(itemId),
+      userId: userId? JSON.parse(userId): undefined
+    })
+  }, [itemId, userId, path, ])
+
+  const handleSave = async () => {
     await toggleSaveQuestion(
       { userId: JSON.parse(userId), questionId: JSON.parse(itemId), path }
-      
     );
   };
+
+
 
   const handleVotes = async (action: string) => {
     if (!userId) {
@@ -134,7 +145,7 @@ function Votes({
           width={18}
           height={18}
           className="cursor-pointer"
-          onClick={handelsave}
+          onClick={handleSave}
         />
       )}
     </div>
