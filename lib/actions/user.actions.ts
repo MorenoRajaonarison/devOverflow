@@ -15,6 +15,7 @@ import {
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
+import Answer from "@/database/answer.model";
 
 export async function getUserById(params: GetUserByIdParams) {
   try {
@@ -143,5 +144,24 @@ export async function getSaveQuestion(params: GetSavedQuestionParams) {
   } catch (e) {
     console.log(e);
     throw e;
+  }
+}
+
+export async function getUserInfo(params: GetUserByIdParams) {
+  try {
+    connectToDb();
+    const { userId } = params;
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) throw new Error("User not found...");
+    const totalQst = await Question.countDocuments({
+      author: user._id,
+    });
+    const totalAnswer = await Answer.countDocuments({
+      author: user._id,
+    });
+    return {user, totalQst, totalAnswer}
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }
