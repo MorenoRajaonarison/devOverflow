@@ -170,6 +170,7 @@ export async function getUserInfo(params: GetUserByIdParams) {
 export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDb();
+    // eslint-disable-next-line no-unused-vars
     const { userId, page = 1, pageSize = 10 } = params;
     const totalQst = await Question.countDocuments({ author: userId });
     const userQst = await Question.find({ author: userId })
@@ -180,6 +181,25 @@ export async function getUserQuestions(params: GetUserStatsParams) {
       .populate("tags", "_id name")
       .populate("author", "_id clerkId name picture");
     return { totalQst, questions: userQst };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getUserAnswers(params: GetUserStatsParams) {
+  try {
+    connectToDb();
+    // eslint-disable-next-line no-unused-vars
+    const { userId, page = 1, pageSize = 10 } = params;
+    const totalAnswers = await Answer.countDocuments({ author: userId });
+    const userAnswers = await Answer.find({ author: userId })
+      .sort({
+        upVotes: -1,
+      })
+      .populate("question", "_id title")
+      .populate("author", "_id clerkId name picture");
+    return { totalAnswers, answers: userAnswers };
   } catch (error) {
     console.log(error);
     throw error;
