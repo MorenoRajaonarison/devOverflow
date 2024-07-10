@@ -12,9 +12,11 @@ interface Props {
   views: number;
   upVotes: string[];
   createdAt: Date;
+  clerkId?: string |null;
 }
 
 const QuestionCard = ({
+  clerkId,
   _id,
   answers,
   author,

@@ -1,5 +1,6 @@
 "use server";
 
+import Answer from "@/database/answer.model";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
@@ -12,10 +13,10 @@ import {
   GetAllUsersParams,
   GetSavedQuestionParams,
   GetUserByIdParams,
+  GetUserStatsParams,
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
-import Answer from "@/database/answer.model";
 
 export async function getUserById(params: GetUserByIdParams) {
   try {
@@ -159,9 +160,37 @@ export async function getUserInfo(params: GetUserByIdParams) {
     const totalAnswer = await Answer.countDocuments({
       author: user._id,
     });
-    return {user, totalQst, totalAnswer}
+    return { user, totalQst, totalAnswer };
   } catch (error) {
     console.log(error);
     throw error;
   }
 }
+
+export async function getUserQuestions(params: GetUserStatsParams) {
+  try {
+    connectToDb();
+    const { userId, page = 1, pageSize = 10 } = params;
+    const totalQst = await Question.countDocuments({ author: userId });
+    const userQst = await Question.find({ author: userId })
+      .sort({
+        views: -1,
+        upVotes: -1,
+      })
+      .populate("tags", "_id name")
+      .populate("author", "_id clerkId name picture");
+    return { totalQst, questions: userQst };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+// export async function getUserQuestions(params){
+//   try {
+//     connectToDb()
+//   } catch (error) {
+//     console.log(error)
+//     throw error
+//   }
+// }

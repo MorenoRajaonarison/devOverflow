@@ -1,3 +1,4 @@
+import AnswerTab from "@/components/shared/AnswerTab";
 import ProfileLink from "@/components/shared/ProfileLink";
 import QuestionTab from "@/components/shared/QuestionTab";
 import Stats from "@/components/shared/Stats";
@@ -43,7 +44,7 @@ const page = async ({ params, searchParams }: URLProps) => {
                   title="Portfolio"
                 />
               )}
-               {userInfo.user.location && (
+              {userInfo.user.location && (
                 <ProfileLink
                   imgUrl="/assets/icons/location.svg"
                   title={userInfo.user.location}
@@ -54,7 +55,11 @@ const page = async ({ params, searchParams }: URLProps) => {
                 title={getFormattedJoinedDate(userInfo.user.joinedAt)}
               />
             </div>
-            {userInfo.user.bio && <p className="paragraph-regular text-dark400_light800 mt-8">{userInfo.user.bio}</p>}
+            {userInfo.user.bio && (
+              <p className="paragraph-regular text-dark400_light800 mt-8">
+                {userInfo.user.bio}
+              </p>
+            )}
           </div>
         </div>
         <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
@@ -69,21 +74,34 @@ const page = async ({ params, searchParams }: URLProps) => {
           </SignedIn>
         </div>
       </div>
-      <Stats totalQuestions={userInfo.totalQst}
-      totalAnswers={userInfo.totalAnswer}
+      <Stats
+        totalQuestions={userInfo.totalQst}
+        totalAnswers={userInfo.totalAnswer}
       />
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1">
             <TabsTrigger value="top-posts" className="tab">
-              <QuestionTab/>
+              Questions
             </TabsTrigger>
             <TabsTrigger value="answers" className="tab">
               Answers
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="top-posts">Posts</TabsContent>
-          <TabsContent value="answers">Answers</TabsContent>
+          <TabsContent value="top-posts">
+            <QuestionTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId}
+            />
+          </TabsContent>
+          <TabsContent value="answers">
+            <AnswerTab 
+            searchParams={searchParams}
+            userId={userInfo.user._id}
+            clerkId={clerkId}
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </>
