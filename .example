@@ -1,0 +1,7 @@
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_Y2hhcm1pbmctbWlubm93LTUuY2xlcmsuYWNjb3VudHMuZGV2JA
+CLERK_SECRET_KEY=sk_test_0jbUfihhrfDA2u5sl5FzZdvLFtkCaKagdLuP6e8BiZ
+
+DB_URL=mongodb+srv://morenorajaonarison:<password>@devoverflow.onqx8fa.mongodb.net/?retryWrites=true&w=majority&appName=devoverflow
+WEBHOOK_SECRET=whsec_phKK9PqTogCz5SMQlVbwt4oD40PL2LAm
+
+NEXT_PUBLIC_TINY_API_KEY=2dkfkku2c3chfnqanuojiy0pt6a9ork7dq6vf1ycyhpidt3n
