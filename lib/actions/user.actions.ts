@@ -205,7 +205,6 @@ export async function getUserAnswers(params: GetUserStatsParams) {
     throw error;
   }
 }
-
 // export async function getUserQuestions(params){
 //   try {
 //     connectToDb()
