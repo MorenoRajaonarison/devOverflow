@@ -130,13 +130,16 @@ export async function downVoteQuestion(params: QuestionVoteParams) {
 
 export async function deleteQuestion(params: DeleteQuestionParams) {
   try {
-    connectToDb()
-    const {questionId, isQuestionPath, path} = params
-    await Question.deleteOne({_id: questionId})
-    await Answer.deleteMany({question: questionId})
-    await Interaction.deleteMany({question: questionId})
-    await Tag.updateMany({questions: questionId}, {$pull: {questions: questionId}})
-    
+    connectToDb();
+    const { questionId, isQuestionPath, path } = params;
+    await Question.deleteOne({ _id: questionId });
+    await Answer.deleteMany({ question: questionId });
+    await Interaction.deleteMany({ question: questionId });
+    await Tag.updateMany(
+      { questions: questionId },
+      { $pull: { questions: questionId } }
+    );
+
     revalidatePath(path);
   } catch (e) {
     console.log(e);
@@ -146,18 +149,31 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
 
 export async function updateQuestion(params: EditQuestionParams) {
   try {
-    connectToDb()
-    const {content, questionId, title, path} = params
-    const question = await Question.findById(questionId).populate('tags')
-    if(!question){
-      throw new Error('Question not found')
+    connectToDb();
+    const { content, questionId, title, path } = params;
+    const question = await Question.findById(questionId).populate("tags");
+    if (!question) {
+      throw new Error("Question not found");
     }
 
-    question.title= title
-    question.content= content
-    await question.save()
+    question.title = title;
+    question.content = content;
+    await question.save();
 
     revalidatePath(path);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+}
+
+export async function getHotQuestions() {
+  try {
+    connectToDb();
+    const hotQuestions = await Question.find({})
+      .sort({ views: -1, upvotes: -1 })
+      .limit(5);
+    return hotQuestions;
   } catch (e) {
     console.log(e);
     throw e;
