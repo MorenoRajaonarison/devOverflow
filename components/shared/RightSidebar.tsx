@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import RenderTag from "./RenderTag";
 import { getHotQuestions } from "@/lib/actions/question.action";
+import { getHotTags } from "@/lib/actions/tag.action";
 
 export default async function RightSidebar() {
   const hotqst = await getHotQuestions();
@@ -38,7 +39,7 @@ export default async function RightSidebar() {
               key={tag._id}
               _id={tag._id}
               name={tag.name}
-              totalQst={tag.totalQst}
+              totalQst={tag.numberOfQuestions}
               showCount
             />
           ))}
