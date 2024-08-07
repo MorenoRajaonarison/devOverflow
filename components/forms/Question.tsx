@@ -36,15 +36,15 @@ const Question = ({ mongoUserId, type, questionDetails }: ParamProps) => {
   const [isSubmiting, setIsSubmiting] = useState(false);
   const router = useRouter();
 
-  const parsedQstDetails = JSON.parse(questionDetails || "");
-  const groupsTags = parsedQstDetails.tags.map((tag) => tag.name);
+  const parsedQstDetails = questionDetails && JSON.parse(questionDetails || "");
+  const groupsTags = parsedQstDetails?.tags.map((tag) => tag.name);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
-      title: parsedQstDetails.title || "",
-      explanation: parsedQstDetails.content || "",
+      title: parsedQstDetails?.title || "",
+      explanation: parsedQstDetails?.content || "",
       tags: groupsTags || [],
     },
   });
@@ -168,7 +168,7 @@ const Question = ({ mongoUserId, type, questionDetails }: ParamProps) => {
                     //     Promise.reject("See docs to implement AI Assistant")
                     //   ),
                   }}
-                  initialValue={parsedQstDetails.content || ""}
+                  initialValue={parsedQstDetails?.content || ""}
                 />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
