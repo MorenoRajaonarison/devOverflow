@@ -6,10 +6,13 @@ import LocalSearch from "@/components/shared/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filter";
 import { getQuestions } from "@/lib/actions/question.action";
+import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 
-async function Home() {
-  const questions = await getQuestions({});
+async function Home({ searchParams }: SearchParamsProps) {
+  const questions = await getQuestions({
+    searchQuery: searchParams.q
+  });
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
