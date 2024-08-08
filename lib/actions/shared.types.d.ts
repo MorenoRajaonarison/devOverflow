@@ -38,7 +38,7 @@ interface OptionalFilter {
 }
 
 interface Path {
-  path?: string;
+  path: string;
 }
 
 interface Content {

@@ -140,7 +140,7 @@ export async function downVoteQuestion(params: QuestionVoteParams) {
 export async function deleteQuestion(params: DeleteQuestionParams) {
   try {
     connectToDb();
-    const { questionId, isQuestionPath, path } = params;
+    const { questionId, path } = params;
     await Question.deleteOne({ _id: questionId });
     await Answer.deleteMany({ question: questionId });
     await Interaction.deleteMany({ question: questionId });

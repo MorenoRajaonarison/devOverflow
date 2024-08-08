@@ -3,11 +3,14 @@ import Filter from "@/components/shared/Filter";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { UserFilters } from "@/constants/filter";
 import { getUsers } from "@/lib/actions/user.actions";
+import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 
-async function Page() {
-  const users = await getUsers({});
+async function Page({ searchParams }: SearchParamsProps) {
+  const users = await getUsers({
+    searchQuery: searchParams.q,
+  });
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Users</h1>

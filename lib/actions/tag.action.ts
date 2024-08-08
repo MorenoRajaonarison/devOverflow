@@ -30,7 +30,14 @@ export async function getTopInteractedTag(tagData: GetTopInteractedTagsParams) {
 export async function getTags(tagData: GetAllTagsParams) {
   try {
     connectToDb();
-    const { filter, page, pageSize, searchQuery } = tagData;
+    const { searchQuery } = tagData;
+    const query: FilterQuery<typeof Tag> = {};
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { description: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
     const tags = await Tag.find({});
     return tags;
   } catch (error) {

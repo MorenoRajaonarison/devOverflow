@@ -3,11 +3,12 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { TagFilters } from "@/constants/filter";
 import { getTags } from "@/lib/actions/tag.action";
+import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 
-async function Page() {
-  const tags = await getTags({});
+async function Page({ searchParams }: SearchParamsProps) {
+  const tags = await getTags({ searchQuery: searchParams.q });
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Tags</h1>
