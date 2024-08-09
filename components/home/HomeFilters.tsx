@@ -3,7 +3,7 @@
 import { HomePageFilters } from "@/constants/filter";
 import { Button } from "../ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { formUrlQuery } from "@/lib/utils";
 
 const HomeFilters = () => {

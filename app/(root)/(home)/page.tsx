@@ -12,6 +12,7 @@ import Link from "next/link";
 async function Home({ searchParams }: SearchParamsProps) {
   const questions = await getQuestions({
     searchQuery: searchParams.q,
+    filter: searchParams.filter
   });
   return (
     <>
