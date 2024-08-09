@@ -14,7 +14,7 @@ import {
 export async function getTopInteractedTag(tagData: GetTopInteractedTagsParams) {
   try {
     connectToDb();
-    const { userId, limit = 3 } = tagData;
+    const { userId } = tagData;
     const user = await User.findById(userId);
     if (!user) throw new Error("User not found");
     return [
@@ -38,7 +38,7 @@ export async function getTags(tagData: GetAllTagsParams) {
         { description: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
-    const tags = await Tag.find({});
+    const tags = await Tag.find(query);
     return tags;
   } catch (error) {
     console.log(error);
@@ -49,7 +49,7 @@ export async function getTags(tagData: GetAllTagsParams) {
 export async function getQuestionByTagId(params: GetQuestionByTagIdParams) {
   try {
     connectToDb();
-    const { tagId, page = 1, pageSize = 10, searchQuery } = params;
+    const { tagId, searchQuery } = params;
     const tagFilter: FilterQuery<TagInterface> = { _id: tagId };
     const tag = await Tag.findOne(tagFilter).populate({
       path: "questions",
