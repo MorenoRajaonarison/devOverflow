@@ -28,6 +28,10 @@ function LocalSearch({
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
+      console.log({
+        pathname,
+        route,
+      });
       if (search) {
         const newUrl = formUrlQuery({
           params: searchParams.toString(),

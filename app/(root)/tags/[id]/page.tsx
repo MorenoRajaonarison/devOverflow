@@ -27,7 +27,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions.length > 0 ? (
-          questions.map((question: QuestionInterface) => (
+          questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
