@@ -10,6 +10,7 @@ import {
   GetQuestionByTagIdParams,
   GetTopInteractedTagsParams,
 } from "./shared.types";
+import { TagFilters } from "@/constants/filter";
 
 export async function getTopInteractedTag(tagData: GetTopInteractedTagsParams) {
   try {
@@ -30,7 +31,7 @@ export async function getTopInteractedTag(tagData: GetTopInteractedTagsParams) {
 export async function getTags(tagData: GetAllTagsParams) {
   try {
     connectToDb();
-    const { searchQuery } = tagData;
+    const { searchQuery, filter } = tagData;
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
       query.$or = [
@@ -38,7 +39,24 @@ export async function getTags(tagData: GetAllTagsParams) {
         { description: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
-    const tags = await Tag.find(query);
+    let sortOptions = {};
+    switch (filter) {
+      case "popular":
+        sortOptions = { questions: -  1 };
+        break;
+      case "recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "old":
+        sortOptions = { createdAt: 1 };
+        break;
+      case "name":
+        sortOptions = { name: 1 };
+        break;
+      default:
+        break;
+    }
+    const tags = await Tag.find(query).sort(sortOptions);
     return tags;
   } catch (error) {
     console.log(error);

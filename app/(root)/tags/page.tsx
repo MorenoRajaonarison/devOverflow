@@ -8,7 +8,10 @@ import Link from "next/link";
 import React from "react";
 
 async function Page({ searchParams }: SearchParamsProps) {
-  const tags = await getTags({ searchQuery: searchParams.q });
+  const tags = await getTags({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Tags</h1>
