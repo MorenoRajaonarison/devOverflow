@@ -11,9 +11,10 @@ import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 
 async function Home({ searchParams }: SearchParamsProps) {
-  const questions = await getQuestions({
+  const { questions, isNext } = await getQuestions({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
   return (
     <>
@@ -68,7 +69,7 @@ async function Home({ searchParams }: SearchParamsProps) {
       <div className="mt-10">
         <Pagination
           pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={result.isNext}
+          isNext={isNext}
         />
       </div>
     </>
