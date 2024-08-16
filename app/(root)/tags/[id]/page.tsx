@@ -1,15 +1,15 @@
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
+import Pagination from "@/components/shared/Pagination";
 import LocalSearch from "@/components/shared/search/LocalSearch";
-import { QuestionInterface } from "@/database/question.model";
 import { getQuestionByTagId } from "@/lib/actions/tag.action";
 import { URLProps } from "@/types";
 
 const Page = async ({ params, searchParams }: URLProps) => {
-  const { tagTitle, questions } = await getQuestionByTagId({
+  const { tagTitle, questions, isNext } = await getQuestionByTagId({
     tagId: params.id,
-    page: 1,
     searchQuery: searchParams.q,
+    page: searchParams.page ? +searchParams.page : 1,
   });
   return (
     <>
@@ -48,6 +48,12 @@ const Page = async ({ params, searchParams }: URLProps) => {
             title="There's no tag question to show"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
       </div>
     </>
   );

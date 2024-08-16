@@ -1,6 +1,7 @@
 import QuestionCard from "@/components/cards/QuestionCard";
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
+import Pagination from "@/components/shared/Pagination";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { QuestionFilters } from "@/constants/filter";
 import { getSaveQuestion } from "@/lib/actions/user.actions";
@@ -10,10 +11,11 @@ import { auth } from "@clerk/nextjs/server";
 async function Home({ searchParams }: SearchParamsProps) {
   const { userId: clerkId } = auth();
   if (!clerkId) return null;
-  const { questions } = await getSaveQuestion({
+  const { questions, isNext } = await getSaveQuestion({
     clerkId,
     searchQuery: searchParams.q,
-    filter: searchParams.filter
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
   return (
     <>
@@ -56,6 +58,12 @@ async function Home({ searchParams }: SearchParamsProps) {
             title="There's no saved question to show"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
       </div>
     </>
   );
