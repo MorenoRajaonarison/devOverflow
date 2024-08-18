@@ -247,7 +247,7 @@ export async function getUserAnswers(params: GetUserStatsParams) {
   try {
     connectToDb();
     // eslint-disable-next-line no-unused-vars
-    const { userId, page = 1, pageSize = 1 } = params;
+    const { userId, page = 1, pageSize = 5 } = params;
     const skipAmount = (page - 1) * pageSize;
     const totalAnswers = await Answer.countDocuments({ author: userId });
     const userAnswers = await Answer.find({ author: userId })
